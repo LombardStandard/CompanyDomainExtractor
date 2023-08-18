@@ -16,11 +16,12 @@
         function extractAndDownloadDomains() {
             const urlsInput = document.getElementById('urlsInput');
 
-            const urls = urlsInput.value.split(/\s+/);  // Split input by spaces
+            const urls = urlsInput.value.split(/\s+/);
             const domains = [];
 
             for (const url of urls) {
-                const domain = extractDomain(url);
+                const cleanedUrl = cleanUrl(url);
+                const domain = extractDomain(cleanedUrl);
                 if (domain) {
                     domains.push([domain]);
                 }
@@ -29,16 +30,21 @@
             const csvContent = domains.map(row => row.join(',')).join('\n');
             const blob = new Blob([csvContent], { type: 'text/csv' });
 
-            // Automatically download the CSV file
+            // Auto downloads csv
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
             link.download = 'domains.csv';
             link.click();
         }
 
+        function cleanUrl(url) {
+            return url.replace(/^(https?:\/\/)?(www\.)?/, '');
+        }
+
         function extractDomain(url) {
-            const urlObj = new URL(url);
-            return urlObj.hostname.replace(/^www\./, '');  // Remove 'www.' if present
+            const urlObj = new URL("https://" + url);  
+            const cleanedDomain = urlObj.hostname.replace(/^www\./, '');
+            return cleanedDomain;
         }
     </script>
 </body>
