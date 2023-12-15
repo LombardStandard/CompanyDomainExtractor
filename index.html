@@ -47,7 +47,7 @@
       }
 
       function cleanUrl(url) {
-        return url.replace(/^(https?:\/\/)?(ww\d?\.|www\.)?/, '');
+        return url.replace(/^(https?:\/\/)?(ww\d?\.|www\.|www\d?\.)?/, '');
       }
 
       function extractDomain(url) {
